@@ -3,13 +3,17 @@ package com.test.spring;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
-@Component
-@Conditional(Condition.class)
+/*@Component
+@Conditional(Condition.class)*/
 public class Dragon implements Evil {
 
     private String name;
 
     private String weapon;
+
+    public Dragon(String weapon) {
+        this.weapon = weapon;
+    }
 
     public Dragon() {
     }

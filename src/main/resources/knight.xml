@@ -20,8 +20,8 @@
         <constructor-arg value="#{T(System).out}"/>
     </bean>
 
-    <!--<bean id="dragon" class="com.test.spring.Dragon"
-        c:_0="sword" p:name="dragon"/>-->
+    <bean id="dragon" class="com.test.spring.Dragon"
+        c:_0="sword" p:name="dragon"/>
 
     <bean id="minstrel" class="com.test.spring.Minstrel">
         <constructor-arg value="#{T(System).out}"/>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <bean id="condition" class="java.lang.Boolean">
+        <constructor-arg value="${dragon}"/>
+    </bean>
+    <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+    <context:component-scan base-package="com.test.spring"/>
+    <bean id="knight" class="com.test.spring.BraveKnight">
+        <constructor-arg ref="quest"/>
+    </bean>
+
+
+    <bean id="quest" class="com.test.spring.SlayDragonQuest" p:evil-ref="dragon">
+        <constructor-arg value="#{T(System).out}"/>
+    </bean>
+
+    <!--<bean id="dragon" class="com.test.spring.Dragon"
+        c:_0="sword" p:name="dragon"/>-->
+
+    <bean id="minstrel" class="com.test.spring.Minstrel">
+        <constructor-arg value="#{T(System).out}"/>
+    </bean>
+    <bean id="voiceover" class="com.test.spring.VoiceOver"/>
+
+    <aop:config>
+        <aop:pointcut id="embark" expression="execution(* *.embarkOnQuest(..))"/>
+        <aop:aspect id="minstrel" ref="minstrel" order="2">
+            <aop:before pointcut-ref="embark" method="singBeforeQuest"/>
+            <aop:after method="singAfterQuest" pointcut-ref="embark"/>
+
+        </aop:aspect>
+        <aop:aspect id="voiceover" ref="voiceover" order="1">
+            <aop:after method="voice" pointcut-ref="embark"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
